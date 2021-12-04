@@ -26,7 +26,8 @@ def app():
 
 # Dropdown options
 options = [
-    "Paint"
+    "Paint",
+    "Editor"
 ]
 
 # Status message
