@@ -1,159 +1,92 @@
-from turtle import Turtle, Screen
+from kivy.app import App
+from kivy.uix.widget import Widget
+from kivy.graphics import Color, Line
+from kivy.uix.floatlayout import FloatLayout
+from math import cos, sin, pi
+from kivy.clock import Clock
+from kivy.lang import Builder
+from kivy.properties import NumericProperty
+
 import datetime
 
-# get the current time and convert to the hand's angles
-wn = Screen()
-wn.title("Clock")
-wn.bgcolor("saddlebrown")
-wn.setup(width=1900, height=1000)
-currentDT = datetime.datetime.now()
+kv = '''
+#:import math math
 
-# output current time
-currentHour = currentDT.hour
-if currentHour > 12:
-    currentHour = currentHour - 12
-currentMinute = currentDT.minute
-if currentMinute < 10:
-    print("Time logged in at - " + str(currentHour) + ":0" + str(currentMinute))
-else:
-    print("Time logged in at - " + str(currentHour) + ":" + str(currentMinute))
+[ClockNumber@Label]:
+    text: str(ctx.i)
+    pos_hint: {"center_x": 0.5+0.42*math.sin(math.pi/6*(ctx.i-12)), "center_y": 0.5+0.42*math.cos(math.pi/6*(ctx.i-12))}
+    font_size: self.height/16
 
-# outside circle
-circle = Turtle()
-circle.penup()
-circle.pencolor("black")
-circle.speed(0)
-circle.hideturtle()
-circle.goto(0, -370)
-circle.pendown()
-circle.fillcolor("gold")
-circle.begin_fill()
-circle.circle(380)
-circle.end_fill()
+<MyClockWidget>:
+    face: face
+    ticks: ticks
+    FloatLayout:
+        id: face
+        size_hint: None, None
+        pos_hint: {"center_x":0.5, "center_y":0.5}
+        size: 0.9*min(root.size), 0.9*min(root.size)
+        canvas:
+            Color:
+                rgb: 0.1, 0.1, 0.1
+            Ellipse:
+                size: self.size     
+                pos: self.pos
+        ClockNumber:
+            i: 1
+        ClockNumber:
+            i: 2
+        ClockNumber:
+            i: 3
+        ClockNumber:
+            i: 4
+        ClockNumber:
+            i: 5
+        ClockNumber:
+            i: 6
+        ClockNumber:
+            i: 7
+        ClockNumber:
+            i: 8
+        ClockNumber:
+            i: 9
+        ClockNumber:
+            i: 10
+        ClockNumber:
+            i: 11
+        ClockNumber:
+            i: 12
+    Ticks:
+        id: ticks
+        r: min(root.size)*0.9/2
+'''
+Builder.load_string(kv)
 
-# outside outside circle
-circle = Turtle()
-circle.penup()
-circle.pencolor("black")
-circle.speed(0)
-circle.pensize(35)
-circle.hideturtle()
-circle.goto(0, -390)
-circle.pendown()
-circle.fillcolor("gold")
-circle.begin_fill()
-circle.circle(400)
-circle.end_fill()
+class MyClockWidget(FloatLayout):
+    pass
 
-# hour hand
-hourHand = Turtle()
-hourHand.shape("arrow")
-hourHand.color("black")
-hourHand.speed(10)
-hourHand.shapesize(stretch_wid=0.4, stretch_len=18)
+class Ticks(Widget):
+    def __init__(self, **kwargs):
+        super(Ticks, self).__init__(**kwargs)
+        self.bind(pos=self.update_clock)
+        self.bind(size=self.update_clock)
 
-# minute hand
-minuteHand = Turtle()
-minuteHand.shape("arrow")
-minuteHand.color("black")
-minuteHand.speed(10)
-minuteHand.shapesize(stretch_wid=0.4, stretch_len=26)
+    def update_clock(self, *args):
+        self.canvas.clear()
+        with self.canvas:
+            time = datetime.datetime.now()
+            Color(0.2, 0.5, 0.2)
+            Line(points=[self.center_x, self.center_y, self.center_x+0.8*self.r*sin(pi/30*time.second), self.center_y+0.8*self.r*cos(pi/30*time.second)], width=1, cap="round")
+            Color(0.3, 0.6, 0.3)
+            Line(points=[self.center_x, self.center_y, self.center_x+0.7*self.r*sin(pi/30*time.minute), self.center_y+0.7*self.r*cos(pi/30*time.minute)], width=2, cap="round")
+            Color(0.4, 0.7, 0.4)
+            th = time.hour*60 + time.minute
+            Line(points=[self.center_x, self.center_y, self.center_x+0.5*self.r*sin(pi/360*th), self.center_y+0.5*self.r*cos(pi/360*th)], width=3, cap="round")
 
-# second hand
-secondHand = Turtle()
-secondHand.shape("arrow")
-secondHand.color("dark red")
-secondHand.speed(10)
-secondHand.shapesize(stretch_wid=0.4, stretch_len=36)
+class MyClockApp(App):
+    def build(self):
+        clock = MyClockWidget()
+        Clock.schedule_interval(clock.ticks.update_clock, 1)
+        return clock
 
-# inside circle
-insideCircle = Turtle()
-insideCircle.shape("circle")
-insideCircle.color("black")
-insideCircle.shapesize(stretch_wid=1.5, stretch_len=1.5)
-
-# numbers with pen
-pen = Turtle()
-pen.speed(0)
-pen.color("black")
-pen.penup()
-pen.hideturtle()
-pen.goto(0, 300)
-pen.write("12", align="center", font=("Courier", 50, "normal"))
-pen.penup()
-pen.hideturtle()
-pen.goto(340, -30)
-pen.write("3", align="center", font=("Courier", 50, "normal"))
-pen.penup()
-pen.hideturtle()
-pen.goto(0, -370)
-pen.write("6", align="center", font=("Courier", 50, "normal"))
-pen.penup()
-pen.hideturtle()
-pen.goto(-340, -30)
-pen.write("9", align="center", font=("Courier", 50, "normal"))
-pen.penup()
-pen.hideturtle()
-pen.goto(170, 260)
-pen.write("1", align="center", font=("Courier", 50, "normal"))
-pen.penup()
-pen.hideturtle()
-pen.goto(-160, 260)
-pen.write("11", align="center", font=("Courier", 50, "normal"))
-pen.penup()
-pen.hideturtle()
-pen.goto(300, 140)
-pen.write("2", align="center", font=("Courier", 50, "normal"))
-pen.penup()
-pen.hideturtle()
-pen.goto(-280, 140)
-pen.write("10", align="center", font=("Courier", 50, "normal"))
-pen.penup()
-pen.hideturtle()
-pen.goto(300, -200)
-pen.write("4", align="center", font=("Courier", 50, "normal"))
-pen.penup()
-pen.hideturtle()
-pen.goto(-300, -200)
-pen.write("8", align="center", font=("Courier", 50, "normal"))
-pen.penup()
-pen.hideturtle()
-pen.goto(170, -325)
-pen.write("5", align="center", font=("Courier", 50, "normal"))
-pen.penup()
-pen.hideturtle()
-pen.goto(-170, -325)
-pen.write("7", align="center", font=("Courier", 50, "normal"))
-
-# moving hour hand
-def moveHourHand():
-   currentHourInternal = datetime.datetime.now().hour
-   degree = (currentHourInternal - 15) * -30
-   currentMinuteInternal = datetime.datetime.now().minute
-   degree = degree + -0.5 * currentMinuteInternal
-   hourHand.setheading(degree)
-   wn.ontimer(moveHourHand, 60000)
-
-
-# moving minute hand
-def moveMinuteHand():
-    currentMinuteInternal = datetime.datetime.now().minute
-    degree = (currentMinuteInternal - 15) * -6
-    currentSecondInternal = datetime.datetime.now().second
-    degree = degree + (-currentSecondInternal * 0.1)
-    minuteHand.setheading(degree)
-    wn.ontimer(moveMinuteHand, 1000)
-
-# moving second hand
-def moveSecondHand():
-    currentSecondInternal = datetime.datetime.now().second
-    degree = (currentSecondInternal - 15) * -6
-    secondHand.setheading(degree)
-    wn.ontimer(moveSecondHand, 1000)
-
-# on timer infinite loop
-wn.ontimer(moveHourHand, 1)
-wn.ontimer(moveMinuteHand, 1)
-wn.ontimer(moveSecondHand, 1)
-
-wn.exitonclick()
+if __name__ == '__main__':
+    MyClockApp().run()

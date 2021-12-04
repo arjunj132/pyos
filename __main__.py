@@ -40,14 +40,13 @@ print(color.CYAN + "OS loading..." + color.END)
 # Install dependencies
 os.system("pip3 install kivy > /dev/null 2>&1")
 os.system("pip install kivy > /dev/null 2>&1")
-os.system("pip install turtle > /dev/null 2>&1")
-os.system("pip3 install turtle > /dev/null 2>&1")
 
 # Create portal
 root = Tk()
 root.title("PyOS Portal")
-root.geometry("500x600")
-
+width= root.winfo_screenwidth() 
+height= root.winfo_screenheight()
+root.geometry("%dx%d" % (width, height))
 # Show content
 label = Label(root, text ="Welcome to the PyOS portal!")
 choose = Label(root, text ="Choose a program:")
