@@ -1,5 +1,5 @@
 # pyos
-An kind of operating system portal to a variety of apps.
+An kind of operating system portal to a variety of apps. (Linux/Mac python3 required)
 
 ## Installation
 
