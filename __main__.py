@@ -28,7 +28,9 @@ def app():
 options = [
     "Select",
     "Paint",
-    "Editor"
+    "Editor",
+    "Pong",
+    "Clock"
 ]
 
 # Status message
