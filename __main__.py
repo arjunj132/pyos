@@ -26,6 +26,7 @@ def app():
 
 # Dropdown options
 options = [
+    "Select",
     "Paint",
     "Editor"
 ]
@@ -48,7 +49,7 @@ button = Button( root , text = "Submit" , command = app)
 label.pack()
 choose.pack()
 clicked = StringVar()
-clicked.set("Paint")
+clicked.set("Select")
 drop = OptionMenu( root , clicked , *options )
 drop.pack()
 button.pack()
