@@ -18,9 +18,9 @@ class color:
 
 # Get app
 def app():
-    open = Label(root, text ="Loading...")
-    open.pack()
     text = clicked.get().lower()
+    open = Label(root, text ="Opening app " + text)
+    open.pack()
     os.system("python3 " + text + ".py")
     
 
@@ -30,14 +30,18 @@ options = [
     "Paint",
     "Editor",
     "Pong",
-    "Clock"
+    "Clock",
+    "Timer",
+    "Analog"
 ]
 
 # Status message
 print(color.CYAN + "OS loading..." + color.END)
-os.system("sleep 1")
+# Install dependencies
 os.system("pip3 install kivy > /dev/null 2>&1")
 os.system("pip install kivy > /dev/null 2>&1")
+os.system("pip install turtle > /dev/null 2>&1")
+os.system("pip3 install turtle > /dev/null 2>&1")
 
 # Create portal
 root = Tk()
