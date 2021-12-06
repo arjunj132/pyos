@@ -7,10 +7,11 @@ Run this on your terminal:
 
 ```
 git clone https://github.com/arjunj132/pyos.git
+cd pyos
 ```
 
 Then, use this to open it:
 
 ```
-python3 -m pyos
+python3 -m dashboard
 ```
