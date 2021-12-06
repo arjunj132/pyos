@@ -10,21 +10,26 @@ options = [
     "Select",
     "Paint",
     "Editor",
-    "Pong",
     "Clock",
     "Timer",
     "Analog"
 ]
 
 def portal():
+    def app():
+        text = clicked.get().lower()
+        open = Label(root, text ="Opening app " + text)
+        open.pack()
+        os.system("python " + text + ".py  > /dev/null 2>&1")
+        os.system("python3 " + text + ".py > /dev/null 2>&1")
     # Create portal
     root = Tk()
-    root.title("PyOS Apps")
+    root.title("PyOS Utilities")
     width= root.winfo_screenwidth() 
     height= root.winfo_screenheight()
     root.geometry("%dx%d" % (width, height))
     # Show content
-    label = Label(root, text ="Welcome to the PyOS portal!")
+    label = Label(root, text ="Welcome to the PyOS utilities portal!")
     choose = Label(root, text ="Choose a program:")
     button = Button( root , text = "Submit" , command = app)
     label.pack()
@@ -50,13 +55,7 @@ class color:
    UNDERLINE = '\033[4m'
    END = '\033[0m'
 
-# Get app
-def app():
-    text = clicked.get().lower()
-    open = Label(root, text ="Opening app " + text)
-    open.pack()
-    os.system("python " + text + ".py  > /dev/null 2>&1")
-    os.system("python3 " + text + ".py > /dev/null 2>&1")
+
     
 
 # Dropdown options
@@ -85,7 +84,7 @@ frame.pack(fill="both", expand=True) #attach the HtmlFrame widget to the parent 
 
 create = Label(web, text = "Apps:" )
 butt = Button(web, text = "Portal", command = portal)
-create.pack()
-butt.pack()
+create.pack(side=tk.LEFT)
+butt.pack(side=tk.LEFT)
 
 web.mainloop()
