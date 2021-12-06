@@ -15,6 +15,11 @@ options = [
     "Analog"
 ]
 
+games = [
+    "Select",
+    "Pong"
+]
+
 def portal():
     def app():
         text = clicked.get().lower()
@@ -37,6 +42,33 @@ def portal():
     clicked = StringVar()
     clicked.set("Select")
     drop = OptionMenu( root , clicked , *options )
+    drop.pack()
+    button.pack()
+    # Keep portal
+    root.mainloop()
+
+def game():
+    def app():
+        text = clicked.get().lower()
+        open = Label(root, text ="Opening app " + text)
+        open.pack()
+        os.system("python " + text + ".py  > /dev/null 2>&1")
+        os.system("python3 " + text + ".py > /dev/null 2>&1")
+    # Create portal
+    root = Tk()
+    root.title("PyOS Games")
+    width= root.winfo_screenwidth() 
+    height= root.winfo_screenheight()
+    root.geometry("%dx%d" % (width, height))
+    # Show content
+    label = Label(root, text ="Welcome to the PyOS games portal!")
+    choose = Label(root, text ="Choose a game:")
+    button = Button( root , text = "Submit" , command = app)
+    label.pack()
+    choose.pack()
+    clicked = StringVar()
+    clicked.set("Select")
+    drop = OptionMenu( root , clicked , *games )
     drop.pack()
     button.pack()
     # Keep portal
@@ -83,8 +115,10 @@ frame.load_website("https://upload.wikimedia.org/wikipedia/commons/8/8c/Andromed
 frame.pack(fill="both", expand=True) #attach the HtmlFrame widget to the parent window
 
 create = Label(web, text = "Apps:" )
-butt = Button(web, text = "Portal", command = portal)
+butt = Button(web, text = "Utilities", command = portal)
+butt1 = Button(web, text = "Games", command = game)
 create.pack(side=tk.LEFT)
 butt.pack(side=tk.LEFT)
+butt1.pack(side=tk.LEFT)
 
 web.mainloop()
