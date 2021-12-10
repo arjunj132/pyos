@@ -17,8 +17,13 @@ options = [
 
 games = [
     "Select",
-    "Pong"
+    "Pong",
+    "Colors",
+    "Rock-Paper-Scissors",
+    "Snake"
 ]
+
+
 
 def portal():
     def app():
@@ -50,7 +55,7 @@ def portal():
 def game():
     def app():
         text = clicked.get().lower()
-        open = Label(root, text ="Opening app " + text)
+        open = Label(root, text ="Opening game " + text)
         open.pack()
         os.system("python " + text + ".py  > /dev/null 2>&1")
         os.system("python3 " + text + ".py > /dev/null 2>&1")
@@ -74,6 +79,10 @@ def game():
     # Keep portal
     root.mainloop()
 
+
+def unverify():
+    import install
+
 # Create colors
 class color:
    PURPLE = '\033[95m'
@@ -88,9 +97,7 @@ class color:
    END = '\033[0m'
 
 
-    
 
-# Dropdown options
 
 
 # Status message
@@ -102,6 +109,7 @@ os.system("pip install kivy > /dev/null 2>&1")
 os.system("pip3 install tkinterweb > /dev/null 2>&1")
 os.system("pip install tkinterweb > /dev/null 2>&1")
 print(color.PURPLE + "Opening app..." + color.END)
+
 
 web = Tk()
 web.title("PyOS Dashboard")
@@ -117,8 +125,10 @@ frame.pack(fill="both", expand=True) #attach the HtmlFrame widget to the parent 
 create = Label(web, text = "Apps:" )
 butt = Button(web, text = "Utilities", command = portal)
 butt1 = Button(web, text = "Games", command = game)
+butt2 = Button(web, text = "Unverified Apps Installer", command = unverify)
 create.pack(side=tk.LEFT)
 butt.pack(side=tk.LEFT)
 butt1.pack(side=tk.LEFT)
+butt2.pack(side=tk.LEFT)
 
 web.mainloop()
