@@ -1,4 +1,7 @@
 # pyos
+
+pyos is now not gonna update soon. But you can still use it!
+
 An kind of operating system portal to a variety of apps. (Linux/Mac python3 required)
 
 ## Installation
